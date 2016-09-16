@@ -14,13 +14,13 @@ RUN apt-get update \
     && apt-get install nzbdrone -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && mkdir -p /volumes/config /volumes/series
+    && mkdir -p /volumes/config /volumes/media
 
 ## Expose port
 EXPOSE 8989
 
 ## Volume for sonarr data
-VOLUME /volumes/config /volumes/series
+VOLUME /volumes/config /volumes/media
 
 ## Entrypoint to launch Sonarr
 ENTRYPOINT ["mono","/opt/NzbDrone/NzbDrone.exe", "-nobrowswer", "-data=/volumes/config"]
