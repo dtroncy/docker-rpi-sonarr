@@ -1,9 +1,14 @@
 # docker-rpi-sonarr
+
+[![Build Status](https://travis-ci.org/dtroncy/docker-rpi-sonarr.svg?branch=master)](https://travis-ci.org/dtroncy/docker-rpi-sonarr)
+
 This is a raspberry pi compatible Sonarr DockerFile.
 
 To build it :
 
-    docker build -t rpi-sonarr .
+    docker build --build-arg sonarr_version=$sonarr_version -t rpi-sonarr .
+
+$sonarr_version is version of sonarr you want to install.
 
 To run it (with image on docker hub) :
 
