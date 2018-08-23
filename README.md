@@ -1,6 +1,6 @@
 # docker-rpi-sonarr
 
-[![Build Status](https://travis-ci.org/dtroncy/docker-rpi-sonarr.svg?branch=master)](https://travis-ci.org/dtroncy/docker-rpi-sonarr)
+<img src="https://badgen.net/badge/platform/raspberry%20pi?list=1"/> <a href="https://hub.docker.com/r/dtroncy/rpi-sonarr"><img src="https://badgen.net/badge//docker?icon=docker"/></a> <a href="https://travis-ci.org/dtroncy/docker-rpi-sonarr"><img src="https://badgen.net/travis/babel/babel?icon=travis&label=build"/></a>
 
 This is a raspberry pi compatible Sonarr DockerFile.
 
