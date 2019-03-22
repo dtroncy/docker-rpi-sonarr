@@ -3,7 +3,7 @@ services:
   - docker
 language: bash
 env:
-  - sonarr_version=2.0.0.5301
+  - sonarr_version=2.0.0.5319
 script:
 # prepare qemu
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
