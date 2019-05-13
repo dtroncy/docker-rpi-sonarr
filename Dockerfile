@@ -1,5 +1,5 @@
 # dtroncy/rpi-sonarr
-FROM resin/rpi-raspbian
+FROM balenalib/rpi-raspbian
 
 ARG sonarr_version
 
