@@ -7,8 +7,8 @@ RUN apt update \
     && apt install apt-transport-https dirmngr gnupg ca-certificates -y \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
     && "deb https://download.mono-project.com/repo/debian stable-raspbianstretch main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC \
-    && echo "deb https://apt.sonarr.tv/ master main" | sudo tee -a /etc/apt/sources.list.d/sonarr.list \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493 \
+    && echo "deb http://apt.sonarr.tv/ master main" | sudo tee /etc/apt/sources.list.d/sonarr.list \
     && apt update \
     && apt upgrade -y \
     && apt install wget \
