@@ -1,19 +1,33 @@
 sudo: required
-services:
-  - docker
 language: bash
 env:
   - sonarr_version=2.0.0.5338
+# install last docker version
+before_install:
+  - sudo apt-get remove docker docker-engine docker.io containerd runc
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 script:
+# activate experimental docker feature
+  - export DOCKER_CLI_EXPERIMENTAL=enabled
 # prepare qemu
-  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-# build image
-  - docker build --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr .
-# push image
+  - docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
+# create new builder
+  - docker buildx create --name builder
+  - docker buildx use builder
+  - docker buildx inspect --bootstrap
+# if master branch, build image and push it
   - >
     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-      docker tag dtroncy/rpi-sonarr dtroncy/rpi-sonarr:$sonarr_version
-      travis_wait docker push dtroncy/rpi-sonarr:$sonarr_version
-      docker push dtroncy/rpi-sonarr
+      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:latest --push .
+      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:$sonarr_version --push .
+    fi
+# if develop branch, build image and load it
+  - >
+    if [ "$TRAVIS_BRANCH" == "develop" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:latest --load .
+      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:$sonarr_version --load .
     fi
