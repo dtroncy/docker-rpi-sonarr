@@ -1,7 +1,7 @@
 sudo: required
 language: bash
 env:
-  - sonarr_version=2.0.0.5338
+  - sonarr_version=2.0.0.5344
 # install last docker version
 before_install:
   - sudo apt-get remove docker docker-engine docker.io containerd runc
