@@ -1,7 +1,7 @@
 sudo: required
 language: bash
 env:
-  - sonarr_version=2.0.0.5338
+  - sonarr_version=2.0.0.5344
 # install last docker version
 before_install:
   - sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -22,12 +22,12 @@ script:
   - >
     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:latest --push .
-      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:$sonarr_version --push .
+      docker buildx build --platform linux/amd64,linux/arm/v7 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:latest --push .
+      docker buildx build --platform linux/amd64,linux/arm/v7 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:$sonarr_version --push .
     fi
 # if develop branch, build image and load it
   - >
     if [ "$TRAVIS_BRANCH" == "develop" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:latest --load .
-      docker buildx build --platform linux/amd64,linux/arm/v6 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:$sonarr_version --load .
+      docker buildx build --platform linux/amd64,linux/arm/v7 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:latest .
+      docker buildx build --platform linux/amd64,linux/arm/v7 --build-arg sonarr_version=$sonarr_version -t dtroncy/rpi-sonarr:$sonarr_version .
     fi
