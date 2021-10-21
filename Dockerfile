@@ -15,7 +15,7 @@ RUN apt update \
 && apt upgrade -y \
 && apt install sonarr=$sonarr_version -y \
 && apt clean \
-&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /repo-mediaarea_1.0-19_all.deb\
 && mkdir -p /volumes/config /volumes/media
 
 ## Expose port
@@ -23,3 +23,6 @@ EXPOSE 8989
 
 ## Volume for sonarr data
 VOLUME /volumes/config /volumes/media
+
+## Entrypoint to launch Sonarr
+ENTRYPOINT ["mono","/usr/lib/sonarr/bin/Sonarr.exe", "-nobrowswer", "-data=/volumes/config"]
