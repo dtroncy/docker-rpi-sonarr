@@ -6,7 +6,7 @@ ARG sonarr_version
 RUN apt update \
     && apt install apt-transport-https dirmngr gnupg ca-certificates -y \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-    && echo "deb https://download.mono-project.com/repo/debian stable-buster main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
+    && echo "deb https://download.mono-project.com/repo/debian stable-raspbianbuster main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
     && rpm -Uvh https://mediaarea.net/repo/rpm/releases/repo-MediaArea-1.0-19.noarch.rpm \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 2009837CBFFD68F45BC180471F4F90DE2A9B4BF8 \
     && echo "deb https://apt.sonarr.tv/debian buster main" | tee /etc/apt/sources.list.d/sonarr.list \
