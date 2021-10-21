@@ -4,25 +4,22 @@ FROM balenalib/rpi-raspbian
 ARG sonarr_version
 
 RUN apt update \
-    && apt install apt-transport-https dirmngr gnupg ca-certificates -y \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-    && "deb https://download.mono-project.com/repo/debian stable-raspbianstretch main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493 \
-    && echo "deb http://apt.sonarr.tv/ master main" | sudo tee /etc/apt/sources.list.d/sonarr.list \
-    && apt update \
-    && apt upgrade -y \
-    && apt install wget \
-    && apt install mono-devel -y \
-    && apt install nzbdrone=$sonarr_version -y \
-    && apt clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && mkdir -p /volumes/config /volumes/media
+&& apt install apt-transport-https dirmngr gnupg ca-certificates -y \
+&& apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
+&& echo "deb https://download.mono-project.com/repo/debian stable-raspbianbuster main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
+&& apt install wget \
+&& wget https://mediaarea.net/repo/deb/repo-mediaarea_1.0-19_all.deb && dpkg -i repo-mediaarea_1.0-19_all.deb && apt-get update \
+&& apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 2009837CBFFD68F45BC180471F4F90DE2A9B4BF8 \
+&& echo "deb https://apt.sonarr.tv/debian buster main" | tee /etc/apt/sources.list.d/sonarr.list \
+&& apt update \
+&& apt upgrade -y \
+&& apt install sonarr=$sonarr_version -y \
+&& apt clean \
+&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+&& mkdir -p /volumes/config /volumes/media
 
 ## Expose port
 EXPOSE 8989
 
 ## Volume for sonarr data
 VOLUME /volumes/config /volumes/media
-
-## Entrypoint to launch Sonarr
-ENTRYPOINT ["mono","/opt/NzbDrone/NzbDrone.exe", "-nobrowswer", "-data=/volumes/config"]
